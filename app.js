@@ -1,8 +1,8 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const multer = require('multer');
+const express = require("express");
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const multer = require("multer");
 
 const app = express();
 
@@ -15,44 +15,19 @@ const upload = multer();
 
 // Create a transporter with your email service credentials
 const transporter = nodemailer.createTransport({
-  host: 'smtp.zoho.com',
-  port: 465,
-  secure: true,
+  host: "ukm40.siteground.biz",
+  port: 587,
+  secure: false,
   auth: {
-    user: 'support@gradesup.org',
-    pass: '#MmeProduct@UPGrades@1109',
+    user: "testing@graderz.org",
+    pass: "$2tb3p1`1o@^",
   },
-});
-
-// Define a route to handle POST requests
-app.post('/send-email', upload.none(), (req, res) => {
-  // Extract user data from the form data
-  const { name, email, phone, message } = req.body;
-
-  // Email data
-  const mailOptions = {
-    from: 'support@gradesup.org',
-    to: 'support@gradesup.org,Apexessayz@gmail.com',
-    subject: 'DLF Form Entry | Gradesup.org',
-    text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-  };
-
-  // Send the email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ error: 'Error sending email' });
-    } else {
-      console.log('Email sent:', info.response);
-      res.json({ message: 'Email sent successfully' });
-    }
-  });
 });
 
 const storage = multer.memoryStorage();
 const upload1 = multer({ storage });
 
-app.post('/send-order-form', upload1.array('orderFiles[]'), (req, res) => {
+app.post("/send-order-form", upload1.array("orderFiles[]"), (req, res) => {
   const {
     TypeOfPaper,
     TaskLevel,
@@ -74,15 +49,18 @@ app.post('/send-order-form', upload1.array('orderFiles[]'), (req, res) => {
     TotalAmount,
     PricePerPage,
     CurrencyUnit,
+    notes,
+    orderId,
   } = req.body;
 
-//   // Uploaded files are available in req.files array
+  //   // Uploaded files are available in req.files array
   const orderFiles = req.files;
 
-//   // Create an email message with all the form fields
+  //   // Create an email message with all the form fields
   const emailMessage = `
     Type of Paper: ${TypeOfPaper}
-    Task Level: ${TaskLevel}
+    Task Level: ${TaskLevel}llll
+    dvdsufhdsiufhdsuifids
     Select Subject: ${SelectSubject}
     Referencing Style: ${ReferencingStyle}
     No of Sources: ${NoOfSources}
@@ -101,33 +79,71 @@ app.post('/send-order-form', upload1.array('orderFiles[]'), (req, res) => {
     Total Amount: ${TotalAmount}
     Price Per Page: ${PricePerPage}
     Currency Unit: ${CurrencyUnit}
+    ${orderId} ${notes}
   `;
 
-//   // Email data
+  //   // Email data
   const mailOptions1 = {
-    from: 'support@gradesup.org',
-    to: 'support@gradesup.org,Apexessayz@gmail.com',
-    subject: 'Order Form | Gradesup.org',
-    text: emailMessage,
+    from: "testing@graderz.org",
+    to: "testing@graderz.org",
+    subject: "Order Form | Gradesup.org",
+    html: `
+    <p style="font-weight: bold; font-size: 20px">Order Details</p>
+
+    <hr />
+  
+    <b>Order ID</b> ${orderId} <br />
+    <b>Type of Paper:</b> ${TypeOfPaper} <br />
+    <b>Task/Acadamic Level:</b> ${TaskLevel} <br />
+    <b>Order Subject:</b> ${SelectSubject} <br />
+    <b>Referencing Style:</b> ${ReferencingStyle} <br />
+    <b>Number of Sources:</b> ${NoOfSources} <br />
+    <b>Paper Standard:</b> ${PaperStandard} <br />
+    <b>Number of Pages:</b> ${NoOfPages} <br />
+    <b>Preferred Language Style:</b> ${PreferredLanguage} <br />
+    <b>Paper Format:</b> ${PaperFormat} <br />
+    <b>Order Deadline:</b> ${Deadline} <br />
+    <b>Order Topic:</b> ${topic} <br />
+    <br />
+
+    <p style="font-weight: bold; font-size: 20px">Contact Details</p>
+
+    <hr />
+
+    <b>Order Candidate Name:</b> ${UserName} <br />
+    <b>Order Candidate Email:</b> ${UserEmail} <br />
+    <b>Order Candidate Phone Number:</b> ${UserPhone} <br />
+    <b>Country:</b> ${Country} <br />
+    <b>Order Additional Notes:</b> ${notes} <br />
+    <br />
+
+    <p style="font-weight: bold; font-size: 20px">Price Details</p>
+
+    <hr />
+    
+    <b>Payment Status:</b> Not Paid <br />
+    <b>Payment Amount:</b> ${TotalAmount} <br />
+    <b>Price Per Page:</b> ${PricePerPage} <br />
+    <b>Payment Unit:</b> ${CurrencyUnit} <br />
+  `,
     // Attach the uploaded files
-    attachments: orderFiles.map(file => ({
+    attachments: orderFiles.map((file) => ({
       filename: file.originalname,
       content: file.buffer,
     })),
   };
 
-//   // Send the email
+  //   // Send the email
   transporter.sendMail(mailOptions1, (error, info) => {
     if (error) {
-      console.error('Error sending email:', error);
-      res.status(500).json({ error: 'Error sending email' });
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "Error sending email" });
     } else {
-      console.log('Email sent:', info.response);
-      res.json({ message: 'Email sent successfully' });
+      console.log("Email sent:", info.response);
+      res.json({ message: "Email sent successfully" });
     }
   });
 });
-
 
 const port = process.env.PORT || 3000;
 
