@@ -44,6 +44,8 @@ app.post("/send-order-form", upload1.array("orderFiles[]"), (req, res) => {
     UserEmail,
     UserPhone,
     Country,
+    City,
+    State,
     PostalCode,
     UserInfo,
     TotalAmount,
@@ -74,6 +76,8 @@ app.post("/send-order-form", upload1.array("orderFiles[]"), (req, res) => {
     User Email: ${UserEmail}
     User Phone: ${UserPhone}
     Country: ${Country}
+    State: ${State}
+    City: ${City}
     Postal Code: ${PostalCode}
     User Info: ${UserInfo}
     Total Amount: ${TotalAmount}
