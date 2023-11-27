@@ -15,7 +15,7 @@ const upload = multer();
 
 // Create a transporter with your email service credentials
 const transporter = nodemailer.createTransport({
-  host: "ukm40.siteground.biz",
+  host: "mail.graderz.org",
   port: 587,
   secure: false,
   auth: {
